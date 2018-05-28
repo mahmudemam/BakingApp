@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.7"/>
+
+    <VideoView
+        android:id="@+id/videoView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_serving"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/recipe_content_margin"
+        android:layout_marginStart="@dimen/recipe_content_margin"
+        android:layout_marginTop="@dimen/recipe_content_margin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guideline"
+        app:srcCompat="@drawable/ic_serving" />
+
+    <TextView
+        android:id="@+id/tv_serving"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/iv_serving"
+        app:layout_constraintStart_toStartOf="@+id/iv_serving"
+        app:layout_constraintTop_toBottomOf="@+id/iv_serving"
+        tools:text="8" />
+
+    <ImageView
+        android:id="@+id/iv_ingredients"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/recipe_content_margin"
+        android:layout_marginStart="@dimen/recipe_content_margin"
+        app:layout_constraintStart_toEndOf="@+id/iv_serving"
+        app:layout_constraintTop_toTopOf="@+id/iv_serving"
+        app:srcCompat="@drawable/ic_ingredients" />
+
+    <TextView
+        android:id="@+id/tv_ingredients"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/iv_ingredients"
+        app:layout_constraintStart_toStartOf="@+id/iv_ingredients"
+        app:layout_constraintTop_toBottomOf="@+id/iv_ingredients"
+        tools:text="15" />
+
+    <ImageView
+        android:id="@+id/iv_steps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/recipe_content_margin"
+        android:layout_marginStart="@dimen/recipe_content_margin"
+        app:layout_constraintStart_toEndOf="@+id/iv_ingredients"
+        app:layout_constraintTop_toTopOf="@+id/iv_ingredients"
+        app:srcCompat="@drawable/ic_steps" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        tools:text="3"
+        app:layout_constraintEnd_toEndOf="@+id/iv_steps"
+        app:layout_constraintStart_toStartOf="@+id/iv_steps"
+        app:layout_constraintTop_toBottomOf="@+id/iv_steps" />
+
+</android.support.constraint.ConstraintLayout>
