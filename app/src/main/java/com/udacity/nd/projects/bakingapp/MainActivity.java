@@ -1,5 +1,6 @@
 package com.udacity.nd.projects.bakingapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -20,12 +21,16 @@ public class MainActivity extends AppCompatActivity implements NetworkUtils.Fetc
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.recipe_card_view);
 
         final String URL = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
         Log.v(TAG, URL);
 
         NetworkUtils.fetchRecipes(this, URL, this);
+        Intent intent = new Intent(this, RecipeDetailsActivity.class);
+        startActivity(intent);
+
+        //findViewById(R.id.videoView);
     }
 
     @Override
