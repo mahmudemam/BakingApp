@@ -70,7 +70,14 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         Log.d(TAG, "Ingredient list added to IngredientsFragment");
 
         adapter.addFragment(ingredientsFragment, "Ingredients");
-        adapter.addFragment(new StepsFragment(), "Steps");
+
+        StepsFragment stepsFragment = new StepsFragment();
+        Log.d(TAG, "StepsFragment created");
+
+        stepsFragment.setSteps(mRecipe.getSteps());
+        Log.d(TAG, "Step list added to StepsFragment");
+
+        adapter.addFragment(stepsFragment, "Steps");
         viewPager.setAdapter(adapter);
     }
 
