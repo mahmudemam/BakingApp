@@ -1,4 +1,4 @@
-package com.udacity.nd.projects.bakingapp;
+package com.udacity.nd.projects.bakingapp.ingredients;
 
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -12,8 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.udacity.nd.projects.bakingapp.R;
 import com.udacity.nd.projects.bakingapp.data.Ingredient;
-import com.udacity.nd.projects.bakingapp.ingredients.IngredientAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

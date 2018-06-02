@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
 import com.udacity.nd.projects.bakingapp.data.Recipe;
+import com.udacity.nd.projects.bakingapp.ingredients.IngredientsFragment;
 import com.udacity.nd.projects.bakingapp.utils.StepsFragment;
 
 import java.util.ArrayList;
