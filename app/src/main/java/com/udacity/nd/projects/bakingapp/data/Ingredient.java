@@ -1,5 +1,8 @@
 package com.udacity.nd.projects.bakingapp.data;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -16,8 +19,21 @@ import java.util.Map;
         "measure",
         "ingredient"
 })
-public class Ingredient {
+public class Ingredient implements Parcelable {
 
+    public final static Parcelable.Creator<Ingredient> CREATOR = new Creator<Ingredient>() {
+        @SuppressWarnings({
+                "unchecked"
+        })
+        public Ingredient createFromParcel(Parcel in) {
+            return new Ingredient(in);
+        }
+
+        public Ingredient[] newArray(int size) {
+            return (new Ingredient[size]);
+        }
+
+    };
     @JsonProperty("quantity")
     private Integer quantity;
     @JsonProperty("measure")
@@ -26,6 +42,16 @@ public class Ingredient {
     private String ingredient;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+    protected Ingredient(Parcel in) {
+        this.quantity = ((Integer) in.readValue((Integer.class.getClassLoader())));
+        this.measure = ((String) in.readValue((String.class.getClassLoader())));
+        this.ingredient = ((String) in.readValue((String.class.getClassLoader())));
+        this.additionalProperties = ((Map<String, Object>) in.readValue((Map.class.getClassLoader())));
+    }
+
+    public Ingredient() {
+    }
 
     @JsonProperty("quantity")
     public Integer getQuantity() {
@@ -65,6 +91,17 @@ public class Ingredient {
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
+    }
+
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(quantity);
+        dest.writeValue(measure);
+        dest.writeValue(ingredient);
+        dest.writeValue(additionalProperties);
+    }
+
+    public int describeContents() {
+        return 0;
     }
 
 }

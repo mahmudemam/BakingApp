@@ -1,5 +1,8 @@
 package com.udacity.nd.projects.bakingapp.data;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -18,8 +21,23 @@ import java.util.Map;
         "videoURL",
         "thumbnailURL"
 })
-public class Step {
+public class Step implements Parcelable {
 
+    public final static Parcelable.Creator<Step> CREATOR = new Creator<Step>() {
+
+
+        @SuppressWarnings({
+                "unchecked"
+        })
+        public Step createFromParcel(Parcel in) {
+            return new Step(in);
+        }
+
+        public Step[] newArray(int size) {
+            return (new Step[size]);
+        }
+
+    };
     @JsonProperty("id")
     private Integer id;
     @JsonProperty("shortDescription")
@@ -32,6 +50,18 @@ public class Step {
     private String thumbnailURL;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+    protected Step(Parcel in) {
+        this.id = ((Integer) in.readValue((Integer.class.getClassLoader())));
+        this.shortDescription = ((String) in.readValue((String.class.getClassLoader())));
+        this.description = ((String) in.readValue((String.class.getClassLoader())));
+        this.videoURL = ((String) in.readValue((String.class.getClassLoader())));
+        this.thumbnailURL = ((String) in.readValue((String.class.getClassLoader())));
+        this.additionalProperties = ((Map<String, Object>) in.readValue((Map.class.getClassLoader())));
+    }
+
+    public Step() {
+    }
 
     @JsonProperty("id")
     public Integer getId() {
@@ -92,4 +122,19 @@ public class Step {
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
+
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(id);
+        dest.writeValue(shortDescription);
+        dest.writeValue(description);
+        dest.writeValue(videoURL);
+        dest.writeValue(thumbnailURL);
+        dest.writeValue(additionalProperties);
+    }
+
+    public int describeContents() {
+        return 0;
+    }
+
 }
+
