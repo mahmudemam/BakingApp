@@ -1,5 +1,6 @@
 package com.udacity.nd.projects.bakingapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
@@ -22,19 +23,16 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements NetworkUtils.FetchCallback {
+public class MainActivity extends AppCompatActivity implements NetworkUtils.FetchCallback, RecipeAdapter.RecipeClickListener {
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final String RECIPES_KEY = "recipes";
     private static final String RV_POSITION_KEY = "position";
-
-    private List<Recipe> mRecipes;
-    private Parcelable rvPosition;
-
     @BindView(R.id.rv_recipes)
     RecyclerView rv;
-
     @BindView(R.id.pb_loading_recipe)
     ProgressBar loadingProgressBar;
+    private List<Recipe> mRecipes;
+    private Parcelable rvPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +51,6 @@ public class MainActivity extends AppCompatActivity implements NetworkUtils.Fetc
 
             NetworkUtils.fetchRecipes(this, URL, this);
         }
-        /*Intent intent = new Intent(this, RecipeDetailsActivity.class);
-        startActivity(intent);*/
     }
 
     @Override
@@ -96,12 +92,19 @@ public class MainActivity extends AppCompatActivity implements NetworkUtils.Fetc
         }
     }
 
+    @Override
+    public void onRecipeClicked(Recipe recipe) {
+        Intent intent = new Intent(this, RecipeDetailsActivity.class);
+        intent.putExtra(RecipeDetailsActivity.RECIPE_KEY, recipe);
+        startActivity(intent);
+    }
+
     private void loadView() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         layoutManager.onRestoreInstanceState(rvPosition);
 
         rv.setLayoutManager(layoutManager);
 
-        rv.setAdapter(new RecipeAdapter(this, mRecipes));
+        rv.setAdapter(new RecipeAdapter(this, mRecipes, this));
     }
 }

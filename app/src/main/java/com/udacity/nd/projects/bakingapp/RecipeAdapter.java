@@ -23,10 +23,12 @@ import butterknife.ButterKnife;
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
     private Context mContext;
     private List<Recipe> mRecipes;
+    private RecipeClickListener mListener;
 
-    public RecipeAdapter(Context context, List<Recipe> recipes) {
+    public RecipeAdapter(Context context, List<Recipe> recipes, RecipeClickListener listener) {
         mContext = context;
         mRecipes = recipes;
+        mListener = listener;
     }
 
     @NonNull
@@ -49,6 +51,9 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         else return mRecipes.size();
     }
 
+    public interface RecipeClickListener {
+        void onRecipeClicked(Recipe recipe);
+    }
 
     class RecipeViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.videoView)
@@ -70,9 +75,18 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             super(view);
 
             ButterKnife.bind(this, view);
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mListener.onRecipeClicked((Recipe) view.getTag());
+                }
+            });
         }
 
         void bind(Recipe recipe) {
+            itemView.setTag(recipe);
+
             nameTextView.setText(recipe.getName());
             servingTextView.setText(String.valueOf(recipe.getServings()));
             ingredientsTextView.setText(String.valueOf(recipe.getIngredients().size()));

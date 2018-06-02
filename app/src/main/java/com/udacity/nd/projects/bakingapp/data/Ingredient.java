@@ -35,7 +35,7 @@ public class Ingredient implements Parcelable {
 
     };
     @JsonProperty("quantity")
-    private Integer quantity;
+    private Double quantity;
     @JsonProperty("measure")
     private String measure;
     @JsonProperty("ingredient")
@@ -44,7 +44,7 @@ public class Ingredient implements Parcelable {
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     protected Ingredient(Parcel in) {
-        this.quantity = ((Integer) in.readValue((Integer.class.getClassLoader())));
+        this.quantity = ((Double) in.readValue((Double.class.getClassLoader())));
         this.measure = ((String) in.readValue((String.class.getClassLoader())));
         this.ingredient = ((String) in.readValue((String.class.getClassLoader())));
         this.additionalProperties = ((Map<String, Object>) in.readValue((Map.class.getClassLoader())));
@@ -54,12 +54,12 @@ public class Ingredient implements Parcelable {
     }
 
     @JsonProperty("quantity")
-    public Integer getQuantity() {
+    public Double getQuantity() {
         return quantity;
     }
 
     @JsonProperty("quantity")
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(Double quantity) {
         this.quantity = quantity;
     }
 
@@ -103,5 +103,4 @@ public class Ingredient implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
 }

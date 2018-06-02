@@ -56,8 +56,8 @@ public class Recipe implements Parcelable {
     protected Recipe(Parcel in) {
         this.id = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.name = ((String) in.readValue((String.class.getClassLoader())));
-        in.readList(this.ingredients, (com.udacity.nd.projects.bakingapp.data.Ingredient.class.getClassLoader()));
-        in.readList(this.steps, (com.udacity.nd.projects.bakingapp.data.Step.class.getClassLoader()));
+        this.ingredients = in.readArrayList(com.udacity.nd.projects.bakingapp.data.Ingredient.class.getClassLoader());
+        this.steps = in.readArrayList(com.udacity.nd.projects.bakingapp.data.Step.class.getClassLoader());
         this.servings = ((Integer) in.readValue((Integer.class.getClassLoader())));
         this.image = ((String) in.readValue((String.class.getClassLoader())));
         this.additionalProperties = ((Map<String, Object>) in.readValue((Map.class.getClassLoader())));
