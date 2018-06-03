@@ -14,7 +14,7 @@ import android.util.Log;
 
 import com.udacity.nd.projects.bakingapp.data.Recipe;
 import com.udacity.nd.projects.bakingapp.ingredients.IngredientsFragment;
-import com.udacity.nd.projects.bakingapp.utils.StepsFragment;
+import com.udacity.nd.projects.bakingapp.steps.StepsFragment;
 
 import java.util.ArrayList;
 import java.util.List;

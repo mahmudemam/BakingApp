@@ -1,4 +1,4 @@
-package com.udacity.nd.projects.bakingapp.utils;
+package com.udacity.nd.projects.bakingapp.steps;
 
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -13,10 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.udacity.nd.projects.bakingapp.R;
-import com.udacity.nd.projects.bakingapp.data.Ingredient;
 import com.udacity.nd.projects.bakingapp.data.Step;
-import com.udacity.nd.projects.bakingapp.ingredients.IngredientAdapter;
-import com.udacity.nd.projects.bakingapp.steps.StepAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

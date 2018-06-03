@@ -69,7 +69,8 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
         void bind(Step step) {
             shortDescTextView.setText(step.getShortDescription());
             descTextView.setText(step.getDescription());
-            if (step.getVideoURL() == null) {
+            String videoURL = step.getVideoURL();
+            if (videoURL == null || videoURL.isEmpty()) {
                 playImageButton.setVisibility(View.INVISIBLE);
             }
         }
