@@ -27,7 +27,16 @@ public class RecipeDetailsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (savedInstanceState != null && savedInstanceState.containsKey(RECIPE_KEY)) {
+            Log.d(TAG, "onCreate: recipe restored");
+
+            mRecipe = savedInstanceState.getParcelable(RECIPE_KEY);
+        }
+
         if (mRecipe == null) {
+            Log.d(TAG, "onCreate: New creation");
+
             Intent intent = getIntent();
             if (intent == null || !intent.hasExtra(RECIPE_KEY)) {
                 Log.e(TAG, "Recipe is not passed");
@@ -41,88 +50,39 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recipe_details);
         setTitle(mRecipe.getName());
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        setupTabs();
+        setupFragments();
     }
 
-    private void setupTabs() {
-        ViewPager viewPager = findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
+    private void setupFragments() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
 
-        TabLayout tabLayout = findViewById(R.id.tabLayout);
-        tabLayout.setupWithViewPager(viewPager);
-
-        tabLayout.getTabAt(0).setIcon(R.drawable.ic_ingredients);
-        tabLayout.getTabAt(1).setIcon(R.drawable.ic_steps);
-    }
-
-    private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-
+        // Create Ingredients Fragment
         IngredientsFragment ingredientsFragment = new IngredientsFragment();
         Log.d(TAG, "IngredientsFragment created");
 
         ingredientsFragment.setIngredients(mRecipe.getIngredients());
         Log.d(TAG, "Ingredient list added to IngredientsFragment");
 
-        adapter.addFragment(ingredientsFragment, "Ingredients");
-
+        // Create Steps Fragment
         StepsFragment stepsFragment = new StepsFragment();
         Log.d(TAG, "StepsFragment created");
 
         stepsFragment.setSteps(mRecipe.getSteps());
         Log.d(TAG, "Step list added to StepsFragment");
 
-        adapter.addFragment(stepsFragment, "Steps");
-        viewPager.setAdapter(adapter);
+        // Setup fragments
+        fragmentManager.beginTransaction()
+                .add(R.id.ingredients_fragment_container, ingredientsFragment)
+                .add(R.id.steps_fragment_container, stepsFragment)
+                .commit();
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
+        Log.d(TAG, "onSaveInstanceState");
+
         outState.putParcelable(RECIPE_KEY, mRecipe);
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-
-        if (savedInstanceState != null && savedInstanceState.containsKey(RECIPE_KEY)) {
-            mRecipe = savedInstanceState.getParcelable(RECIPE_KEY);
-        }
-    }
-
-    class ViewPagerAdapter extends FragmentStatePagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
-
-        ViewPagerAdapter(FragmentManager manager) {
-            super(manager);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
-        }
-
-        void addFragment(Fragment fragment, String title) {
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitleList.get(position);
-        }
     }
 }

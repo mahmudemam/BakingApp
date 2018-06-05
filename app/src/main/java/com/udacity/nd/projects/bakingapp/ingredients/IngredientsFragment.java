@@ -42,6 +42,8 @@ public class IngredientsFragment extends Fragment {
         Log.d(TAG, "onCreateView");
 
         if (savedInstanceState != null) {
+            Log.d(TAG, "onCreate: savedInstanceState restored");
+
             mIngredients = savedInstanceState.getParcelableArrayList(INGREDIENT_KEY);
             rvPosition = savedInstanceState.getParcelable(RV_POSITION_KEY);
         }
@@ -72,6 +74,8 @@ public class IngredientsFragment extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
+        Log.d(TAG, "onSaveInstanceState");
+
         outState.putParcelableArrayList(INGREDIENT_KEY, (ArrayList) mIngredients);
         if (rv != null) {
             outState.putParcelable(RV_POSITION_KEY, rv.getLayoutManager().onSaveInstanceState());
@@ -84,6 +88,8 @@ public class IngredientsFragment extends Fragment {
     }
 
     private void setupRecyclerView(RecyclerView rv) {
+        rv.setNestedScrollingEnabled(false);
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         layoutManager.onRestoreInstanceState(rvPosition);
 

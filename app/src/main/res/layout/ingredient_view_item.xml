@@ -11,9 +11,9 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="sans-serif"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textColor="@android:color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -23,10 +23,12 @@
         android:id="@+id/tv_ingredient_qty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        app:layout_constraintStart_toStartOf="@+id/tv_ingredient_name"
-        app:layout_constraintTop_toBottomOf="@+id/tv_ingredient_name"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_ingredient_name"
+        app:layout_constraintStart_toEndOf="@+id/tv_ingredient_name"
+        app:layout_constraintTop_toTopOf="@+id/tv_ingredient_name"
         tools:text="2" />
 
     <TextView
@@ -37,14 +39,19 @@
         android:layout_marginStart="8dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         app:layout_constraintStart_toEndOf="@+id/tv_ingredient_qty"
-        app:layout_constraintTop_toTopOf="@+id/tv_ingredient_qty" />
+        app:layout_constraintTop_toTopOf="@+id/tv_ingredient_qty"
+        tools:text="CUP" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:background="@color/lightGray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_ingredient_measure" />
+        app:layout_constraintEnd_toEndOf="@+id/tv_ingredient_name"
+        app:layout_constraintStart_toStartOf="@+id/tv_ingredient_name"
+        app:layout_constraintTop_toBottomOf="@+id/tv_ingredient_name" />
 </android.support.constraint.ConstraintLayout>
