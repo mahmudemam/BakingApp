@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.udacity.nd.projects.bakingapp.data.Recipe;
 import com.udacity.nd.projects.bakingapp.data.Step;
