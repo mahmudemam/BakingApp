@@ -16,16 +16,6 @@
         app:layout_constraintTop_toTopOf="@+id/ib_play_video"
         tools:text="Recipe Introduction" />
 
-    <TextView
-        android:id="@+id/tv_step_desc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textStyle="italic"
-        app:layout_constraintStart_toStartOf="@+id/tv_step_short_desc"
-        app:layout_constraintTop_toBottomOf="@+id/ib_play_video"
-        tools:text="2. Whisk the graham cracker crumbs, 50 grams (1/4 cup) of sugar, and 1/2 teaspoon of salt together in a medium bowl. Pour the melted butter and 1 teaspoon of vanilla into the dry ingredients and stir together until evenly mixed." />
-
     <ImageButton
         android:id="@+id/ib_play_video"
         android:layout_width="wrap_content"

@@ -3,23 +3,18 @@ package com.udacity.nd.projects.bakingapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.udacity.nd.projects.bakingapp.data.Recipe;
+import com.udacity.nd.projects.bakingapp.data.Step;
 import com.udacity.nd.projects.bakingapp.ingredients.IngredientsFragment;
+import com.udacity.nd.projects.bakingapp.steps.DetailedStepActivity;
 import com.udacity.nd.projects.bakingapp.steps.StepsFragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class RecipeDetailsActivity extends AppCompatActivity {
+public class RecipeDetailsActivity extends AppCompatActivity implements StepsFragment.StepSelectedListener {
     public static final String RECIPE_KEY = "recipe";
     private static final String TAG = RecipeDetailsActivity.class.getSimpleName();
     private Recipe mRecipe;
@@ -84,5 +79,24 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         Log.d(TAG, "onSaveInstanceState");
 
         outState.putParcelable(RECIPE_KEY, mRecipe);
+    }
+
+    @Override
+    public void onStepSelected(int stepId) {
+        Step step = mRecipe.getSteps().get(stepId);
+
+        Intent detailedStepIntent = new Intent(this, DetailedStepActivity.class);
+        detailedStepIntent.putExtra(DetailedStepActivity.STEP_KEY, step);
+
+        if (stepId > 0 && stepId < (mRecipe.getSteps().size() - 1)) {
+            detailedStepIntent.putExtra(DetailedStepActivity.NEXT_STEP_KEY, mRecipe.getSteps().get(stepId + 1).getShortDescription());
+            detailedStepIntent.putExtra(DetailedStepActivity.PREV_STEP_KEY, mRecipe.getSteps().get(stepId - 1).getShortDescription());
+        } else if (stepId == 0 && stepId < (mRecipe.getSteps().size() - 1)) {
+            detailedStepIntent.putExtra(DetailedStepActivity.NEXT_STEP_KEY, mRecipe.getSteps().get(stepId + 1).getShortDescription());
+        } else if (stepId > 0 && stepId == (mRecipe.getSteps().size() - 1)) {
+            detailedStepIntent.putExtra(DetailedStepActivity.PREV_STEP_KEY, mRecipe.getSteps().get(stepId - 1).getShortDescription());
+        }
+
+        startActivity(detailedStepIntent);
     }
 }

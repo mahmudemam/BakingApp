@@ -24,10 +24,16 @@ import butterknife.ButterKnife;
 public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder> {
     private Context mContext;
     private List<Step> mSteps;
+    private StepSelectedListener mListener;
 
-    public StepAdapter(Context context, List<Step> steps) {
+    public interface StepSelectedListener {
+        void onStepSelected(int stepId);
+    }
+
+    public StepAdapter(Context context, List<Step> steps, StepSelectedListener listener) {
         mContext = context;
         mSteps = steps;
+        mListener = listener;
     }
 
     @NonNull
@@ -54,9 +60,6 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
         @BindView(R.id.tv_step_short_desc)
         TextView shortDescTextView;
 
-        @BindView(R.id.tv_step_desc)
-        TextView descTextView;
-
         @BindView(R.id.ib_play_video)
         ImageButton playImageButton;
 
@@ -64,11 +67,17 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
             super(view);
 
             ButterKnife.bind(this, view);
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.onStepSelected(getAdapterPosition());
+                }
+            });
         }
 
         void bind(Step step) {
             shortDescTextView.setText(step.getShortDescription());
-            descTextView.setText(step.getDescription());
             String videoURL = step.getVideoURL();
             if (videoURL == null || videoURL.isEmpty()) {
                 playImageButton.setVisibility(View.INVISIBLE);

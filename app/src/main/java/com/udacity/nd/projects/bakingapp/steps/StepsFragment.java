@@ -1,5 +1,6 @@
 package com.udacity.nd.projects.bakingapp.steps;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -27,14 +28,29 @@ public class StepsFragment extends Fragment {
     private static final String STEPS_KEY = "steps";
     private static final String RV_POSITION_KEY = "position";
 
+    private StepSelectedListener mListener;
+
     private View view;
     private Parcelable rvPosition;
     @BindView(R.id.rv_ingredients)
     RecyclerView rv;
 
+    public interface StepSelectedListener {
+        void onStepSelected(int stepId);
+    }
 
     public StepsFragment() {
 
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        if (! (context instanceof StepSelectedListener))
+            throw new IllegalStateException("context is not an instanceof StepSelectedListener");
+
+        mListener = (StepSelectedListener) context;
     }
 
     @Override
@@ -97,7 +113,12 @@ public class StepsFragment extends Fragment {
         rv.setLayoutManager(layoutManager);
         Log.d(TAG, "setupRecyclerView: setLayoutManager SUCCESS");
 
-        rv.setAdapter(new StepAdapter(getActivity(), mSteps));
+        rv.setAdapter(new StepAdapter(getActivity(), mSteps, new StepAdapter.StepSelectedListener() {
+            @Override
+            public void onStepSelected(int stepId) {
+                mListener.onStepSelected(stepId);
+            }
+        }));
         Log.d(TAG, "setupRecyclerView: setAdapter SUCCESS");
     }
 }
