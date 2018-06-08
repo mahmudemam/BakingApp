@@ -10,13 +10,15 @@ import android.widget.TextView;
 import com.udacity.nd.projects.bakingapp.R;
 import com.udacity.nd.projects.bakingapp.data.Step;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class DetailedStepActivity extends AppCompatActivity {
-    public static final String STEP_KEY = "step";
-    public static final String NEXT_STEP_KEY = "next_step";
-    public static final String PREV_STEP_KEY = "prev_step";
+    public static final String STEP_ID_KEY = "step_id";
+    public static final String STEPS_KEY = "steps";
 
     @BindView(R.id.iv_goto_next)
     ImageView gotoNextImageView;
@@ -30,44 +32,33 @@ public class DetailedStepActivity extends AppCompatActivity {
     @BindView(R.id.tv_prev_step)
     TextView prevStepTextView;
 
-    private Step mStep;
-    private String mNextStep;
-    private String mPrevStep;
+    private List<Step> mSteps;
+    private int mStepId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed_step);
 
-        if (savedInstanceState != null && savedInstanceState.containsKey(STEP_KEY)) {
-            mStep = savedInstanceState.getParcelable(STEP_KEY);
-
-            if (savedInstanceState.containsKey(NEXT_STEP_KEY))
-                mNextStep = savedInstanceState.getString(NEXT_STEP_KEY);
-
-            if (savedInstanceState.containsKey(PREV_STEP_KEY))
-                mPrevStep = savedInstanceState.getString(PREV_STEP_KEY);
+        if (savedInstanceState != null && savedInstanceState.containsKey(STEP_ID_KEY) && savedInstanceState.containsKey(STEPS_KEY)) {
+            mStepId = savedInstanceState.getInt(STEP_ID_KEY);
+            mSteps = savedInstanceState.getParcelableArrayList(STEPS_KEY);
         }
 
-        if (mStep == null) {
+        if (mSteps == null) {
             Intent intent = getIntent();
-            if (intent == null || !intent.hasExtra(STEP_KEY)) {
-                throw new IllegalArgumentException("intent or step is not passed to the activity");
+            if (intent == null || !intent.hasExtra(STEP_ID_KEY) || !intent.hasExtra(STEPS_KEY)) {
+                throw new IllegalArgumentException("intent or steps is not passed to the activity");
             }
 
-            mStep = intent.getParcelableExtra(STEP_KEY);
-
-            if (intent.hasExtra(NEXT_STEP_KEY))
-                mNextStep = intent.getStringExtra(NEXT_STEP_KEY);
-
-            if (intent.hasExtra(PREV_STEP_KEY))
-                mPrevStep = intent.getStringExtra(PREV_STEP_KEY);
+            mStepId = intent.getIntExtra(STEP_ID_KEY, 0);
+            mSteps = intent.getParcelableArrayListExtra(STEPS_KEY);
         }
 
         ButterKnife.bind(this);
 
         DetailedStepFragment stepFragment = new DetailedStepFragment();
-        stepFragment.setStep(mStep);
+        stepFragment.setStep(mSteps.get(mStepId));
 
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.detailed_step_fragment, stepFragment)
@@ -80,30 +71,35 @@ public class DetailedStepActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putParcelable(STEP_KEY, mStep);
-        if (mNextStep != null)
-            outState.putString(NEXT_STEP_KEY, mNextStep);
-        if (mNextStep != null)
-            outState.putString(PREV_STEP_KEY, mPrevStep);
+        outState.putInt(STEP_ID_KEY, mStepId);
+        outState.putParcelableArrayList(STEPS_KEY, (ArrayList) mSteps);
     }
 
-    void setupButton() {
-        if (mNextStep == null) {
+    private void setupButton() {
+        setupNextVideo();
+
+        setupPrevVideo();
+    }
+
+    private void setupNextVideo() {
+        if (mStepId == (mSteps.size() - 1)) {
             gotoNextImageView.setVisibility(View.GONE);
             nextStepTextView.setVisibility(View.GONE);
         } else {
             gotoNextImageView.setVisibility(View.VISIBLE);
             nextStepTextView.setVisibility(View.VISIBLE);
-            nextStepTextView.setText(mNextStep);
+            nextStepTextView.setText(mSteps.get(mStepId + 1).getShortDescription());
         }
+    }
 
-        if (mPrevStep == null) {
+    private void setupPrevVideo() {
+        if (mStepId == 0) {
             gotoPreviousImageView.setVisibility(View.GONE);
             prevStepTextView.setVisibility(View.GONE);
         } else {
             gotoPreviousImageView.setVisibility(View.VISIBLE);
             prevStepTextView.setVisibility(View.VISIBLE);
-            prevStepTextView.setText(mPrevStep);
+            prevStepTextView.setText(mSteps.get(mStepId - 1).getShortDescription());
         }
     }
 }
