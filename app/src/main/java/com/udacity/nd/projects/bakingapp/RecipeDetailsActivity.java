@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -50,28 +51,34 @@ public class RecipeDetailsActivity extends AppCompatActivity implements StepsFra
         setupFragments();
     }
 
+    private static final String INGREDIENTS_FRAGMENT_KEY = "ingredient_fragment";
+
     private void setupFragments() {
         FragmentManager fragmentManager = getSupportFragmentManager();
 
-        // Create Ingredients Fragment
-        IngredientsFragment ingredientsFragment = new IngredientsFragment();
-        Log.d(TAG, "IngredientsFragment created");
+        IngredientsFragment ingredientsFragment = (IngredientsFragment) fragmentManager.findFragmentByTag(INGREDIENTS_FRAGMENT_KEY);
 
-        ingredientsFragment.setIngredients(mRecipe.getIngredients());
-        Log.d(TAG, "Ingredient list added to IngredientsFragment");
+        if (ingredientsFragment == null) {
+            // Create Ingredients Fragment
+            ingredientsFragment = new IngredientsFragment();
+            Log.d(TAG, "IngredientsFragment created");
 
-        // Create Steps Fragment
-        StepsFragment stepsFragment = new StepsFragment();
-        Log.d(TAG, "StepsFragment created");
+            ingredientsFragment.setIngredients(mRecipe.getIngredients());
+            Log.d(TAG, "Ingredient list added to IngredientsFragment");
 
-        stepsFragment.setSteps(mRecipe.getSteps());
-        Log.d(TAG, "Step list added to StepsFragment");
+            // Create Steps Fragment
+            StepsFragment stepsFragment = new StepsFragment();
+            Log.d(TAG, "StepsFragment created");
 
-        // Setup fragments
-        fragmentManager.beginTransaction()
-                .add(R.id.ingredients_fragment_container, ingredientsFragment)
-                .add(R.id.steps_fragment_container, stepsFragment)
-                .commit();
+            stepsFragment.setSteps(mRecipe.getSteps());
+            Log.d(TAG, "Step list added to StepsFragment");
+
+            // Setup fragments
+            fragmentManager.beginTransaction()
+                    .add(R.id.ingredients_fragment_container, ingredientsFragment, INGREDIENTS_FRAGMENT_KEY)
+                    .add(R.id.steps_fragment_container, stepsFragment, "steps_fragment")
+                    .commit();
+        }
     }
 
     @Override
