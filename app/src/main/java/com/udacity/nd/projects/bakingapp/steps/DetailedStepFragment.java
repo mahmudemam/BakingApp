@@ -1,5 +1,6 @@
 package com.udacity.nd.projects.bakingapp.steps;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,8 +10,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.VideoView;
 
+import com.google.android.exoplayer2.DefaultLoadControl;
+import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
+import com.google.android.exoplayer2.source.ExtractorMediaSource;
+import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.util.Util;
 import com.udacity.nd.projects.bakingapp.R;
 import com.udacity.nd.projects.bakingapp.data.Step;
 
@@ -28,8 +38,10 @@ public class DetailedStepFragment extends Fragment {
     @BindView(R.id.tv_step_desc)
     TextView stepDesTextView;
 
-    @BindView(R.id.vv_step_video)
-    VideoView stepVideoView;
+    @BindView(R.id.exoPlayerView)
+    SimpleExoPlayerView mPlayerView;
+
+    private SimpleExoPlayer mExoPlayer;
 
     public DetailedStepFragment() {
     }
@@ -60,7 +72,16 @@ public class DetailedStepFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        setupVideo();
         stepDesTextView.setText(mStep.getDescription());
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mExoPlayer.stop();
+        mExoPlayer.release();
+        mExoPlayer = null;
     }
 
     public void setStep(Step step) {
@@ -73,5 +94,18 @@ public class DetailedStepFragment extends Fragment {
         super.onSaveInstanceState(outState);
 
         outState.putParcelable(STEP_KEY, mStep);
+    }
+
+    private void setupVideo() {
+        mExoPlayer = ExoPlayerFactory.newSimpleInstance(getActivity(),
+                new DefaultTrackSelector(),
+                new DefaultLoadControl());
+        mPlayerView.setPlayer(mExoPlayer);
+
+        MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(mStep.getVideoURL()),
+                new DefaultDataSourceFactory(getActivity(), Util.getUserAgent(getActivity(), getResources().getString(R.string.app_name))),
+                new DefaultExtractorsFactory(), null, null);
+        mExoPlayer.prepare(mediaSource);
+        mExoPlayer.setPlayWhenReady(true);
     }
 }
