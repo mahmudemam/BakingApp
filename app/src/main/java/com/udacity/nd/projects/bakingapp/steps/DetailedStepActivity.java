@@ -19,6 +19,7 @@ import butterknife.ButterKnife;
 public class DetailedStepActivity extends AppCompatActivity {
     public static final String STEP_ID_KEY = "step_id";
     public static final String STEPS_KEY = "steps";
+    public static final String RECIPE_NAME = "recipe_name";
 
     @BindView(R.id.iv_goto_next)
     ImageView gotoNextImageView;
@@ -32,6 +33,7 @@ public class DetailedStepActivity extends AppCompatActivity {
     @BindView(R.id.tv_prev_step)
     TextView prevStepTextView;
 
+    private String mRecipeName;
     private List<Step> mSteps;
     private int mStepId;
 
@@ -43,8 +45,10 @@ public class DetailedStepActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detailed_step);
 
         if (savedInstanceState != null && savedInstanceState.containsKey(STEP_ID_KEY) && savedInstanceState.containsKey(STEPS_KEY)) {
+            mRecipeName = savedInstanceState.getString(RECIPE_NAME);
             mStepId = savedInstanceState.getInt(STEP_ID_KEY);
             mSteps = savedInstanceState.getParcelableArrayList(STEPS_KEY);
+
         }
 
         if (mSteps == null) {
@@ -53,9 +57,12 @@ public class DetailedStepActivity extends AppCompatActivity {
                 throw new IllegalArgumentException("intent or steps is not passed to the activity");
             }
 
+            mRecipeName = intent.getStringExtra(RECIPE_NAME);
             mStepId = intent.getIntExtra(STEP_ID_KEY, 0);
             mSteps = intent.getParcelableArrayListExtra(STEPS_KEY);
         }
+
+        setTitle(mRecipeName);
 
         ButterKnife.bind(this);
 
@@ -92,6 +99,7 @@ public class DetailedStepActivity extends AppCompatActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
+        outState.putString(RECIPE_NAME, mRecipeName);
         outState.putInt(STEP_ID_KEY, mStepId);
         outState.putParcelableArrayList(STEPS_KEY, (ArrayList) mSteps);
     }
