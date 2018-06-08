@@ -35,6 +35,8 @@ public class DetailedStepActivity extends AppCompatActivity {
     private List<Step> mSteps;
     private int mStepId;
 
+    private DetailedStepFragment stepFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,14 +59,33 @@ public class DetailedStepActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        DetailedStepFragment stepFragment = new DetailedStepFragment();
+        gotoNextImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mStepId++;
+                loadFragment();
+                setupButtons();
+            }
+        });
+
+        gotoPreviousImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mStepId--;
+                loadFragment();
+                setupButtons();
+            }
+        });
+
+
+        stepFragment = new DetailedStepFragment();
         stepFragment.setStep(mSteps.get(mStepId));
 
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.detailed_step_fragment, stepFragment)
                 .commit();
 
-        setupButton();
+        setupButtons();
     }
 
     @Override
@@ -75,7 +96,7 @@ public class DetailedStepActivity extends AppCompatActivity {
         outState.putParcelableArrayList(STEPS_KEY, (ArrayList) mSteps);
     }
 
-    private void setupButton() {
+    private void setupButtons() {
         setupNextVideo();
 
         setupPrevVideo();
@@ -101,5 +122,14 @@ public class DetailedStepActivity extends AppCompatActivity {
             prevStepTextView.setVisibility(View.VISIBLE);
             prevStepTextView.setText(mSteps.get(mStepId - 1).getShortDescription());
         }
+    }
+
+    private void loadFragment() {
+        stepFragment = new DetailedStepFragment();
+        stepFragment.setStep(mSteps.get(mStepId));
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.detailed_step_fragment, stepFragment)
+                .commit();
     }
 }

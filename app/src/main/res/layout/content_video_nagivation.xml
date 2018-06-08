@@ -30,27 +30,33 @@
 
     <TextView
         android:id="@+id/tv_prev_step"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:padding="8dp"
+        android:singleLine="true"
+        android:scrollHorizontally="true"
+        android:ellipsize="marquee"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/nav_guideline"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/iv_goto_previous"
         app:layout_constraintTop_toTopOf="@+id/iv_goto_previous"
-        tools:text="Prep the cookie crust" />
+        tools:text="Melt butter and bittersweet chocolate" />
 
     <TextView
         android:id="@+id/tv_next_step"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/step_ctl_textview_width"
         android:layout_height="wrap_content"
+        android:ellipsize="marquee"
         android:padding="8dp"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
         app:layout_constraintBottom_toBottomOf="@+id/iv_goto_next"
         app:layout_constraintEnd_toStartOf="@+id/iv_goto_next"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/nav_guideline"
         app:layout_constraintTop_toTopOf="@+id/iv_goto_next"
-        tools:text="Start filling prep" />
+        tools:text="Melt butter and bittersweet chocolate" />
 
     <ImageView
         android:id="@+id/iv_goto_next"

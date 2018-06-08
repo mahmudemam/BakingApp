@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
@@ -41,6 +42,9 @@ public class DetailedStepFragment extends Fragment {
     @BindView(R.id.exoPlayerView)
     SimpleExoPlayerView mPlayerView;
 
+    @BindView(R.id.iv_video_replacement)
+    ImageView videoReplacementImageView;
+
     private SimpleExoPlayer mExoPlayer;
 
     public DetailedStepFragment() {
@@ -72,16 +76,25 @@ public class DetailedStepFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setupVideo();
+        if (mStep.getVideoURL() == null || mStep.getVideoURL().isEmpty()) {
+            mPlayerView.setVisibility(View.GONE);
+
+            videoReplacementImageView.setVisibility(View.VISIBLE);
+        } else {
+            setupVideo();
+        }
+
         stepDesTextView.setText(mStep.getDescription());
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mExoPlayer.stop();
-        mExoPlayer.release();
-        mExoPlayer = null;
+        if (mExoPlayer != null) {
+            mExoPlayer.stop();
+            mExoPlayer.release();
+            mExoPlayer = null;
+        }
     }
 
     public void setStep(Step step) {
