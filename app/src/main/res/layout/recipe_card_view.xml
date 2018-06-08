@@ -2,7 +2,7 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginEnd="4dp"
     android:layout_marginStart="4dp"
@@ -12,12 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <VideoView
-            android:id="@+id/videoView"
-            android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
+        <ImageView
+            android:id="@+id/iv_recipe_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_video_replacement"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -25,22 +26,21 @@
             android:id="@+id/tv_recipe_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
             android:fontFamily="sans-serif-condensed"
-            android:textColor="@color/colorAccent"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/videoView"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintStart_toEndOf="@+id/iv_recipe_icon"
+            app:layout_constraintTop_toTopOf="@+id/iv_recipe_icon"
             tools:text="Nuttela Pie" />
 
         <ImageView
             android:id="@+id/iv_serving"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toStartOf="@+id/iv_ingredients"
-            app:layout_constraintTop_toTopOf="@+id/tv_recipe_name"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@+id/tv_recipe_name"
+            app:layout_constraintTop_toBottomOf="@+id/tv_recipe_name"
             app:srcCompat="@drawable/ic_serving" />
 
         <TextView
@@ -58,8 +58,8 @@
             android:id="@+id/iv_ingredients"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toStartOf="@+id/iv_steps"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toEndOf="@+id/iv_serving"
             app:layout_constraintTop_toTopOf="@+id/iv_serving"
             app:srcCompat="@drawable/ic_ingredients" />
 
@@ -77,8 +77,8 @@
             android:id="@+id/iv_steps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="@+id/videoView"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toEndOf="@+id/iv_ingredients"
             app:layout_constraintTop_toTopOf="@+id/iv_ingredients"
             app:srcCompat="@drawable/ic_steps" />
 

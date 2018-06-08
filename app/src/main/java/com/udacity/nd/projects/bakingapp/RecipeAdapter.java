@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.VideoView;
 
+import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.udacity.nd.projects.bakingapp.data.Recipe;
 
 import java.util.List;
@@ -56,9 +57,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     }
 
     class RecipeViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.videoView)
-        VideoView videoView;
-
         @BindView(R.id.tv_recipe_name)
         TextView nameTextView;
 
