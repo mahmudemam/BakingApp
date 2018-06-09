@@ -1,6 +1,7 @@
 package com.udacity.nd.projects.bakingapp;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +24,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity implements NetworkUtils.FetchCallback, RecipeAdapter.RecipeClickListener {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -107,5 +109,19 @@ public class MainActivity extends AppCompatActivity implements NetworkUtils.Fetc
         rv.setLayoutManager(layoutManager);
 
         rv.setAdapter(new RecipeAdapter(this, mRecipes, this));
+    }
+
+    @Override
+    public void onFavoriedClicked(Recipe recipe, boolean isFavorite) {
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.pref_key), MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        if (isFavorite) {
+            editor.putString(getString(R.string.pref_favorite_key), recipe.getName());
+        } else {
+            editor.remove(getString(R.string.pref_favorite_key));
+        }
+
+        editor.apply();
     }
 }

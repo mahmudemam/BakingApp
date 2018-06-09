@@ -3,4 +3,7 @@
     <string name="ingredients">Ingredients</string>
     <string name="steps">Steps</string>
     <string name="appwidget_content_description">The ingredients</string>
+    <string name="pref_key">baking_app_preference</string>
+    <string name="pref_favorite_key">favorite_preference</string>
+
 </resources>

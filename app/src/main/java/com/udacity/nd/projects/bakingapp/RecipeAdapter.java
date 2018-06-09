@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.udacity.nd.projects.bakingapp.data.Recipe;
@@ -52,6 +53,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
     public interface RecipeClickListener {
         void onRecipeClicked(Recipe recipe);
+
+        void onFavoriedClicked(Recipe recipe, boolean isFavorite);
     }
 
     class RecipeViewHolder extends RecyclerView.ViewHolder {
@@ -67,6 +70,9 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         @BindView(R.id.tv_steps)
         TextView stepsTextView;
 
+        @BindView(R.id.ib_favorite)
+        ImageButton favoriteImageButton;
+
         RecipeViewHolder(View view) {
             super(view);
 
@@ -76,6 +82,20 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                 @Override
                 public void onClick(View view) {
                     mListener.onRecipeClicked((Recipe) view.getTag());
+                }
+            });
+
+            favoriteImageButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ImageButton imageButton = (ImageButton) view;
+                    boolean isSelected = view.isSelected();
+                    if (isSelected) {
+                        imageButton.setImageResource(R.drawable.ic_favorite);
+                    } else {
+                        imageButton.setImageResource(R.drawable.ic_favorite);
+                    }
+                    mListener.onFavoriedClicked((Recipe) view.getTag(), isSelected);
                 }
             });
         }
