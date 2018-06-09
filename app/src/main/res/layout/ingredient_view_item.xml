@@ -10,14 +10,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.7"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="256dp" />
+        app:layout_constraintGuide_percent="0.7" />
 
 
     <TextView
         android:id="@+id/tv_ingredient_name"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"
@@ -27,6 +25,7 @@
         android:textColor="@android:color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/gl_ingredient"
         tools:text="Graham Cracker crumbs" />
 
     <TextView
@@ -55,6 +54,7 @@
         android:layout_height="1dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:background="@color/lightGray"
         app:layout_constraintEnd_toEndOf="@+id/tv_ingredient_name"
         app:layout_constraintStart_toStartOf="@+id/tv_ingredient_name"

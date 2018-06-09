@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.udacity.nd.projects.bakingapp.R;
 import com.udacity.nd.projects.bakingapp.data.Step;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -57,6 +59,9 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
     }
 
     class StepViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.tv_step_id)
+        TextView stepIdTextView;
+
         @BindView(R.id.tv_step_short_desc)
         TextView shortDescTextView;
 
@@ -77,6 +82,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
         }
 
         void bind(Step step) {
+            stepIdTextView.setText(String.valueOf(step.getId()));
             shortDescTextView.setText(step.getShortDescription());
             String videoURL = step.getVideoURL();
             if (videoURL == null || videoURL.isEmpty()) {

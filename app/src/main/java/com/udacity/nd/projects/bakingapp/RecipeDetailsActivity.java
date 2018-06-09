@@ -13,6 +13,7 @@ import com.udacity.nd.projects.bakingapp.data.Recipe;
 import com.udacity.nd.projects.bakingapp.data.Step;
 import com.udacity.nd.projects.bakingapp.ingredients.IngredientsFragment;
 import com.udacity.nd.projects.bakingapp.steps.DetailedStepActivity;
+import com.udacity.nd.projects.bakingapp.steps.DetailedStepFragment;
 import com.udacity.nd.projects.bakingapp.steps.StepsFragment;
 
 import java.util.ArrayList;
@@ -92,11 +93,20 @@ public class RecipeDetailsActivity extends AppCompatActivity implements StepsFra
 
     @Override
     public void onStepSelected(int stepId) {
+        boolean isTwoPane = getResources().getBoolean(R.bool.isTwoPane);
+        if (isTwoPane) {
+            DetailedStepFragment detailedStepFragment = new DetailedStepFragment();
+            detailedStepFragment.setStep(mRecipe.getSteps().get(stepId));
 
-        Intent detailedStepIntent = new Intent(this, DetailedStepActivity.class);
-        detailedStepIntent.putExtra(DetailedStepActivity.STEP_ID_KEY, stepId);
-        detailedStepIntent.putParcelableArrayListExtra(DetailedStepActivity.STEPS_KEY, (ArrayList<? extends Parcelable>) mRecipe.getSteps());
-        detailedStepIntent.putExtra(DetailedStepActivity.RECIPE_NAME, mRecipe.getName());
-        startActivity(detailedStepIntent);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.detailed_step_fragment, detailedStepFragment)
+                    .commit();
+        } else {
+            Intent detailedStepIntent = new Intent(this, DetailedStepActivity.class);
+            detailedStepIntent.putExtra(DetailedStepActivity.STEP_ID_KEY, stepId);
+            detailedStepIntent.putParcelableArrayListExtra(DetailedStepActivity.STEPS_KEY, (ArrayList<? extends Parcelable>) mRecipe.getSteps());
+            detailedStepIntent.putExtra(DetailedStepActivity.RECIPE_NAME, mRecipe.getName());
+            startActivity(detailedStepIntent);
+        }
     }
 }

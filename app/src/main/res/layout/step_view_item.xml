@@ -5,16 +5,36 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <android.support.constraint.Guideline
+        android:id="@+id/gl_step_view_item"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintGuide_percent="0.8"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_step_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="01" />
+
     <TextView
         android:id="@+id/tv_step_short_desc"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
         android:padding="8dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:textColor="@android:color/black"
         app:layout_constraintBottom_toBottomOf="@+id/ib_play_video"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/gl_step_view_item"
+        app:layout_constraintStart_toEndOf="@+id/tv_step_id"
         app:layout_constraintTop_toTopOf="@+id/ib_play_video"
         tools:text="Recipe Introduction" />
 
@@ -31,9 +51,11 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:background="@color/lightGray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_step_desc" />
+        app:layout_constraintBottom_toBottomOf="parent"/>
 </android.support.constraint.ConstraintLayout>
