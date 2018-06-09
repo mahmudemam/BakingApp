@@ -33,18 +33,14 @@ import butterknife.ButterKnife;
  */
 public class DetailedStepFragment extends Fragment {
     private static final String TAG = DetailedStepFragment.class.getSimpleName();
-    private Step mStep;
     private static final String STEP_KEY = "step";
-
     @BindView(R.id.tv_step_desc)
     TextView stepDesTextView;
-
     @BindView(R.id.exoPlayerView)
     SimpleExoPlayerView mPlayerView;
-
     @BindView(R.id.iv_video_replacement)
     ImageView videoReplacementImageView;
-
+    private Step mStep;
     private SimpleExoPlayer mExoPlayer;
 
     public DetailedStepFragment() {

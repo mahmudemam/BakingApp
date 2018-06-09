@@ -7,9 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.VideoView;
 
-import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.udacity.nd.projects.bakingapp.data.Recipe;
 
 import java.util.List;

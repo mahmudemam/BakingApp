@@ -4,13 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.udacity.nd.projects.bakingapp.data.Recipe;
-import com.udacity.nd.projects.bakingapp.data.Step;
 import com.udacity.nd.projects.bakingapp.ingredients.IngredientsFragment;
 import com.udacity.nd.projects.bakingapp.steps.DetailedStepActivity;
 import com.udacity.nd.projects.bakingapp.steps.DetailedStepFragment;
@@ -21,6 +19,7 @@ import java.util.ArrayList;
 public class RecipeDetailsActivity extends AppCompatActivity implements StepsFragment.StepSelectedListener {
     public static final String RECIPE_KEY = "recipe";
     private static final String TAG = RecipeDetailsActivity.class.getSimpleName();
+    private static final String INGREDIENTS_FRAGMENT_KEY = "ingredient_fragment";
     private Recipe mRecipe;
 
     @Override
@@ -51,8 +50,6 @@ public class RecipeDetailsActivity extends AppCompatActivity implements StepsFra
 
         setupFragments();
     }
-
-    private static final String INGREDIENTS_FRAGMENT_KEY = "ingredient_fragment";
 
     private void setupFragments() {
         FragmentManager fragmentManager = getSupportFragmentManager();

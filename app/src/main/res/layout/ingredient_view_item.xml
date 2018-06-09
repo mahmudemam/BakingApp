@@ -22,7 +22,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="sans-serif"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        android:textColor="@android:color/black"
+        android:textColor="@color/textColorPrimary"
         app:layout_constraintEnd_toStartOf="@id/gl_ingredient"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -34,6 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="@color/textColorSecondary"
         app:layout_constraintBottom_toBottomOf="@+id/tv_ingredient_name"
         app:layout_constraintEnd_toStartOf="@+id/tv_ingredient_measure"
         app:layout_constraintTop_toTopOf="@+id/tv_ingredient_name"
@@ -45,6 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="@color/textColorSecondary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tv_ingredient_qty"
         tools:text="CUP" />
@@ -55,7 +57,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="@color/lightGray"
+        android:background="@color/dividerColor"
         app:layout_constraintEnd_toEndOf="@+id/tv_ingredient_name"
         app:layout_constraintStart_toStartOf="@+id/tv_ingredient_name"
         app:layout_constraintTop_toBottomOf="@+id/tv_ingredient_name" />

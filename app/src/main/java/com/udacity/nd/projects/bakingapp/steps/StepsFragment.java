@@ -23,21 +23,15 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class StepsFragment extends Fragment {
-    private List<Step> mSteps;
     private static final String TAG = StepsFragment.class.getSimpleName();
     private static final String STEPS_KEY = "steps";
     private static final String RV_POSITION_KEY = "position";
-
-    private StepSelectedListener mListener;
-
-    private View view;
-    private Parcelable rvPosition;
     @BindView(R.id.rv_ingredients)
     RecyclerView rv;
-
-    public interface StepSelectedListener {
-        void onStepSelected(int stepId);
-    }
+    private List<Step> mSteps;
+    private StepSelectedListener mListener;
+    private View view;
+    private Parcelable rvPosition;
 
     public StepsFragment() {
 
@@ -47,7 +41,7 @@ public class StepsFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        if (! (context instanceof StepSelectedListener))
+        if (!(context instanceof StepSelectedListener))
             throw new IllegalStateException("context is not an instanceof StepSelectedListener");
 
         mListener = (StepSelectedListener) context;
@@ -120,5 +114,9 @@ public class StepsFragment extends Fragment {
             }
         }));
         Log.d(TAG, "setupRecyclerView: setAdapter SUCCESS");
+    }
+
+    public interface StepSelectedListener {
+        void onStepSelected(int stepId);
     }
 }

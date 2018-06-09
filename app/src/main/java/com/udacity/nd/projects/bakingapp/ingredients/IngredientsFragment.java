@@ -22,15 +22,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class IngredientsFragment extends Fragment {
-    private List<Ingredient> mIngredients;
     private static final String TAG = IngredientsFragment.class.getSimpleName();
     private static final String INGREDIENT_KEY = "ingredients";
     private static final String RV_POSITION_KEY = "position";
-
-    private View view;
-    private Parcelable rvPosition;
     @BindView(R.id.rv_ingredients)
     RecyclerView rv;
+    private List<Ingredient> mIngredients;
+    private View view;
+    private Parcelable rvPosition;
 
     public IngredientsFragment() {
 

@@ -12,8 +12,6 @@ import android.widget.TextView;
 import com.udacity.nd.projects.bakingapp.R;
 import com.udacity.nd.projects.bakingapp.data.Step;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 import butterknife.BindView;
@@ -27,10 +25,6 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
     private Context mContext;
     private List<Step> mSteps;
     private StepSelectedListener mListener;
-
-    public interface StepSelectedListener {
-        void onStepSelected(int stepId);
-    }
 
     public StepAdapter(Context context, List<Step> steps, StepSelectedListener listener) {
         mContext = context;
@@ -58,6 +52,10 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
         else return mSteps.size();
     }
 
+    public interface StepSelectedListener {
+        void onStepSelected(int stepId);
+    }
+
     class StepViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tv_step_id)
         TextView stepIdTextView;
@@ -68,7 +66,7 @@ public class StepAdapter extends RecyclerView.Adapter<StepAdapter.StepViewHolder
         @BindView(R.id.ib_play_video)
         ImageButton playImageButton;
 
-        StepViewHolder(View view) {
+        StepViewHolder(final View view) {
             super(view);
 
             ButterKnife.bind(this, view);

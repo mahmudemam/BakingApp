@@ -16,10 +16,6 @@ public class NetworkUtils {
     private static final String TAG = NetworkUtils.class.getSimpleName();
     private static RequestQueue mRequestQueue;
 
-    public interface FetchCallback {
-        public void onFetchResult(Object result);
-    }
-
     private NetworkUtils() {
     }
 
@@ -46,5 +42,9 @@ public class NetworkUtils {
         });
 
         getInstance(context).add(jsonRequest);
+    }
+
+    public interface FetchCallback {
+        public void onFetchResult(Object result);
     }
 }
