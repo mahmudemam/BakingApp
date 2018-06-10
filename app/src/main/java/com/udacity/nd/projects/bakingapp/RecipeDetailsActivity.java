@@ -1,5 +1,6 @@
 package com.udacity.nd.projects.bakingapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -21,6 +22,13 @@ public class RecipeDetailsActivity extends AppCompatActivity implements StepsFra
     private static final String TAG = RecipeDetailsActivity.class.getSimpleName();
     private static final String INGREDIENTS_FRAGMENT_KEY = "ingredient_fragment";
     private Recipe mRecipe;
+
+    public static Intent getRecipeDetailsIntent(Context context, Recipe recipe) {
+        Intent intent = new Intent(context, RecipeDetailsActivity.class);
+        intent.putExtra(RecipeDetailsActivity.RECIPE_KEY, recipe);
+
+        return intent;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

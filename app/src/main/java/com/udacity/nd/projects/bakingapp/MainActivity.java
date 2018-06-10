@@ -96,9 +96,7 @@ public class MainActivity extends AppCompatActivity implements NetworkUtils.Fetc
 
     @Override
     public void onRecipeClicked(Recipe recipe) {
-        Intent intent = new Intent(this, RecipeDetailsActivity.class);
-        intent.putExtra(RecipeDetailsActivity.RECIPE_KEY, recipe);
-        startActivity(intent);
+        startActivity(RecipeDetailsActivity.getRecipeDetailsIntent(this, recipe));
     }
 
     private void loadView() {

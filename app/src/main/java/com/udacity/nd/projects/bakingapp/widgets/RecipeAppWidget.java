@@ -1,11 +1,15 @@
 package com.udacity.nd.projects.bakingapp.widgets;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
+import android.content.Intent;
 import android.widget.RemoteViews;
 
+import com.udacity.nd.projects.bakingapp.MainActivity;
 import com.udacity.nd.projects.bakingapp.R;
+import com.udacity.nd.projects.bakingapp.RecipeDetailsActivity;
 import com.udacity.nd.projects.bakingapp.data.Ingredient;
 import com.udacity.nd.projects.bakingapp.data.Recipe;
 
@@ -26,8 +30,18 @@ public class RecipeAppWidget extends AppWidgetProvider {
 
             views.setTextViewText(R.id.appwidget_tv_recipe_name, recipe.getName());
             views.setTextViewText(R.id.appwidget_tv_ingredients, formatIngredients(recipe.getIngredients()));
+
+            Intent intent = RecipeDetailsActivity.getRecipeDetailsIntent(context, recipe);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+
+            views.setOnClickPendingIntent(R.id.appwidget_tv_ingredients, pendingIntent);
         } else {
             views = new RemoteViews(context.getPackageName(), R.layout.recipe_default_widget);
+
+            Intent intent = new Intent(context, MainActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+
+            views.setOnClickPendingIntent(R.id.appwidget_tv_default, pendingIntent);
         }
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
