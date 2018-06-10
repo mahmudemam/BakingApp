@@ -1,8 +1,10 @@
 package com.udacity.nd.projects.bakingapp;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,8 @@ import butterknife.ButterKnife;
  */
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
+    private static final String TAG = RecipeAdapter.class.getSimpleName();
+
     private Context mContext;
     private List<Recipe> mRecipes;
     private RecipeClickListener mListener;
@@ -88,14 +92,20 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             favoriteImageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ImageButton imageButton = (ImageButton) view;
                     boolean isSelected = view.isSelected();
+
+                    Log.d(TAG, "favoriteButton.isSelected=" + isSelected);
+
                     if (isSelected) {
-                        imageButton.setImageResource(R.drawable.ic_favorite);
+                        favoriteImageButton.setImageResource(R.drawable.ic_favorite_border);
+                        isSelected = false;
                     } else {
-                        imageButton.setImageResource(R.drawable.ic_favorite);
+                        favoriteImageButton.setImageResource(R.drawable.ic_favorite);
+                        isSelected = true;
                     }
-                    mListener.onFavoriedClicked((Recipe) view.getTag(), isSelected);
+
+                    view.setSelected(isSelected);
+                    mListener.onFavoriedClicked(mRecipes.get(getAdapterPosition()), isSelected);
                 }
             });
         }
@@ -107,6 +117,22 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             servingTextView.setText(String.valueOf(recipe.getServings()));
             ingredientsTextView.setText(String.valueOf(recipe.getIngredients().size()));
             stepsTextView.setText(String.valueOf(recipe.getSteps().size()));
+
+            if (isFavorite(recipe)) {
+                favoriteImageButton.setImageResource(R.drawable.ic_favorite);
+                favoriteImageButton.setSelected(true);
+            } else {
+                favoriteImageButton.setImageResource(R.drawable.ic_favorite_border);
+                favoriteImageButton.setSelected(false);
+            }
+        }
+
+        private boolean isFavorite(Recipe recipe) {
+            SharedPreferences sharedPreferences = mContext.getSharedPreferences(mContext.getString(R.string.pref_key), mContext.MODE_PRIVATE);
+            String name = sharedPreferences.getString(mContext.getResources().getString(R.string.pref_favorite_key), null);
+            Log.d(TAG, "recipeName=" + name);
+
+            return recipe.getName().equals(name);
         }
     }
 }

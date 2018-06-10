@@ -19,12 +19,16 @@ public class RecipeAppWidget extends AppWidgetProvider {
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId, Recipe recipe) {
 
-        // Construct the RemoteViews object
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_app_widget);
+        RemoteViews views = null;
+        if (recipe != null) {
+            // Construct the RemoteViews object
+            views = new RemoteViews(context.getPackageName(), R.layout.recipe_app_widget);
 
-        views.setTextViewText(R.id.appwidget_tv_recipe_name, recipe.getName());
-        views.setTextViewText(R.id.appwidget_tv_ingredients, formatIngredients(recipe.getIngredients()));
-
+            views.setTextViewText(R.id.appwidget_tv_recipe_name, recipe.getName());
+            views.setTextViewText(R.id.appwidget_tv_ingredients, formatIngredients(recipe.getIngredients()));
+        } else {
+            views = new RemoteViews(context.getPackageName(), R.layout.recipe_default_widget);
+        }
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }

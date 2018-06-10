@@ -23,8 +23,8 @@ import java.util.List;
  */
 
 public class RecipeWidgetService extends IntentService implements NetworkUtils.FetchCallback {
-    private static final String TAG = RecipeWidgetService.class.getSimpleName();
     public static final String ACTION_INGREDIENT_LIST = "ingredients";
+    private static final String TAG = RecipeWidgetService.class.getSimpleName();
 
     public RecipeWidgetService() {
         super(TAG);
@@ -52,7 +52,12 @@ public class RecipeWidgetService extends IntentService implements NetworkUtils.F
             AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
             int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, RecipeAppWidget.class));
 
-            RecipeAppWidget.updateAppWidgets(this, appWidgetManager, appWidgetIds, recipes.get(getRecipeId(recipes)));
+            int recipeId = getRecipeId(recipes);
+            Recipe recipe = null;
+            if (recipeId != -1)
+                recipe = recipes.get(recipeId);
+
+            RecipeAppWidget.updateAppWidgets(this, appWidgetManager, appWidgetIds, recipe);
         } catch (IOException ex) {
             Log.e(TAG, ex.getMessage());
         }
@@ -65,6 +70,8 @@ public class RecipeWidgetService extends IntentService implements NetworkUtils.F
     }
 
     private int getRecipeId(List<Recipe> recipes) {
+        Log.d(TAG, "getRecipeId: Started");
+
         String recipeName = null;
         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.pref_key), MODE_PRIVATE);
         if (sharedPreferences != null && sharedPreferences.contains(getString(R.string.pref_favorite_key))) {
@@ -72,6 +79,7 @@ public class RecipeWidgetService extends IntentService implements NetworkUtils.F
         }
 
         if (recipeName != null) {
+            Log.d(TAG, "getRecipeId: recipeName=" + recipeName);
             for (int i = 0; i < recipes.size(); i++) {
                 Recipe recipe = recipes.get(i);
 
@@ -80,6 +88,7 @@ public class RecipeWidgetService extends IntentService implements NetworkUtils.F
             }
         }
 
+        Log.d(TAG, "getRecipeId: Started");
         return -1;
     }
 }

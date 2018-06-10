@@ -24,7 +24,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity implements NetworkUtils.FetchCallback, RecipeAdapter.RecipeClickListener {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -113,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements NetworkUtils.Fetc
 
     @Override
     public void onFavoriedClicked(Recipe recipe, boolean isFavorite) {
-        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.pref_key), MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(getString(R.string.pref_key), MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         if (isFavorite) {

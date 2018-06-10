@@ -5,5 +5,6 @@
     <string name="appwidget_content_description">The ingredients</string>
     <string name="pref_key">baking_app_preference</string>
     <string name="pref_favorite_key">favorite_preference</string>
+    <string name="no_favorite_recipe">No Favorite Recipe</string>
 
 </resources>
