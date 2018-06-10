@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements NetworkUtils.Fetc
     ProgressBar loadingProgressBar;
     private List<Recipe> mRecipes;
     private Parcelable rvPosition;
+    private RecipeAdapter mRecipeAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +106,8 @@ public class MainActivity extends AppCompatActivity implements NetworkUtils.Fetc
 
         rv.setLayoutManager(layoutManager);
 
-        rv.setAdapter(new RecipeAdapter(this, mRecipes, this));
+        mRecipeAdapter = new RecipeAdapter(this, mRecipes, this);
+        rv.setAdapter(mRecipeAdapter);
     }
 
     @Override
@@ -120,5 +122,6 @@ public class MainActivity extends AppCompatActivity implements NetworkUtils.Fetc
         }
 
         editor.apply();
+        mRecipeAdapter.notifyDataSetChanged();
     }
 }
