@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="persons">
+        <item quantity="one">%d Person</item>
+        <item quantity="other">%d Persons</item>
+    </plurals>
+
+    <plurals name="ingredients">
+        <item quantity="one">%d Ingredient</item>
+        <item quantity="other">%d Ingredients</item>
+    </plurals>
+
+    <plurals name="steps">
+        <item quantity="one">%d Step</item>
+        <item quantity="other">%d Steps</item>
+    </plurals>
+</resources>

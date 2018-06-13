@@ -114,9 +114,16 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             itemView.setTag(recipe);
 
             nameTextView.setText(recipe.getName());
-            servingTextView.setText(String.valueOf(recipe.getServings()));
-            ingredientsTextView.setText(String.valueOf(recipe.getIngredients().size()));
-            stepsTextView.setText(String.valueOf(recipe.getSteps().size()));
+            servingTextView.setText(
+                    mContext.getResources().getQuantityString(R.plurals.persons, recipe.getServings(), recipe.getServings()));
+
+            ingredientsTextView.setText(
+                    mContext.getResources().getQuantityString(R.plurals.ingredients, recipe.getIngredients().size(), recipe.getIngredients().size())
+            );
+
+            stepsTextView.setText(
+                    mContext.getResources().getQuantityString(R.plurals.steps, recipe.getSteps().size(), recipe.getSteps().size())
+            );
 
             if (isFavorite(recipe)) {
                 favoriteImageButton.setImageResource(R.drawable.ic_favorite);
