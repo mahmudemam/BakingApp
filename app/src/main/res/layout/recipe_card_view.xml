@@ -49,39 +49,44 @@
             android:id="@+id/tv_serving"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:paddingBottom="4dp"
-            app:layout_constraintEnd_toEndOf="@+id/iv_serving"
-            app:layout_constraintStart_toStartOf="@+id/iv_serving"
-            app:layout_constraintTop_toBottomOf="@+id/iv_serving"
-            tools:text="8" />
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:fontFamily="sans-serif-smallcaps"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_serving"
+            app:layout_constraintStart_toEndOf="@+id/iv_serving"
+            app:layout_constraintTop_toTopOf="@+id/iv_serving"
+            tools:text="8 Persons" />
 
         <ImageView
             android:id="@+id/iv_ingredients"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            app:layout_constraintStart_toEndOf="@+id/iv_serving"
-            app:layout_constraintTop_toTopOf="@+id/iv_serving"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@+id/iv_serving"
+            app:layout_constraintTop_toBottomOf="@+id/iv_serving"
             app:srcCompat="@drawable/ic_ingredients" />
 
         <TextView
             android:id="@+id/tv_ingredients"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="@+id/iv_ingredients"
-            app:layout_constraintStart_toStartOf="@+id/iv_ingredients"
-            app:layout_constraintTop_toBottomOf="@+id/iv_ingredients"
-            tools:text="15" />
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
+            android:fontFamily="sans-serif-smallcaps"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_ingredients"
+            app:layout_constraintStart_toEndOf="@+id/iv_ingredients"
+            app:layout_constraintTop_toTopOf="@+id/iv_ingredients"
+            tools:text="15 Ingredients" />
 
         <ImageView
             android:id="@+id/iv_steps"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            app:layout_constraintStart_toEndOf="@+id/iv_ingredients"
-            app:layout_constraintTop_toTopOf="@+id/iv_ingredients"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/iv_ingredients"
+            app:layout_constraintTop_toBottomOf="@+id/iv_ingredients"
             app:srcCompat="@drawable/ic_steps" />
 
         <TextView
@@ -90,18 +95,18 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="@+id/iv_steps"
-            app:layout_constraintStart_toStartOf="@+id/iv_steps"
-            app:layout_constraintTop_toBottomOf="@+id/iv_steps"
-            tools:text="3" />
+            android:fontFamily="sans-serif-smallcaps"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_steps"
+            app:layout_constraintStart_toEndOf="@+id/iv_steps"
+            app:layout_constraintTop_toTopOf="@+id/iv_steps"
+            tools:text="3 Steps" />
 
         <ImageButton
             android:id="@+id/ib_favorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
             android:background="@null"
+            android:padding="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_recipe_name"
             app:srcCompat="@drawable/favorite_selector" />
