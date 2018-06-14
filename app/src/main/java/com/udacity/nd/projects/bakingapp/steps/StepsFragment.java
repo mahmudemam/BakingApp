@@ -26,7 +26,7 @@ public class StepsFragment extends Fragment {
     private static final String TAG = StepsFragment.class.getSimpleName();
     private static final String STEPS_KEY = "steps";
     private static final String RV_POSITION_KEY = "position";
-    @BindView(R.id.rv_ingredients)
+    @BindView(R.id.rv_steps)
     RecyclerView rv;
     private List<Step> mSteps;
     private StepSelectedListener mListener;
