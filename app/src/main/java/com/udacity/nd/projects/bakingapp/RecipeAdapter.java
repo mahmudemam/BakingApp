@@ -58,7 +58,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     public interface RecipeClickListener {
         void onRecipeClicked(Recipe recipe);
 
-        void onFavoriedClicked(Recipe recipe, boolean isFavorite);
+        void onFavoriteClicked(Recipe recipe, boolean isFavorite);
     }
 
     class RecipeViewHolder extends RecyclerView.ViewHolder {
@@ -105,7 +105,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
                     }
 
                     view.setSelected(isSelected);
-                    mListener.onFavoriedClicked(mRecipes.get(getAdapterPosition()), isSelected);
+                    mListener.onFavoriteClicked(mRecipes.get(getAdapterPosition()), isSelected);
                 }
             });
         }

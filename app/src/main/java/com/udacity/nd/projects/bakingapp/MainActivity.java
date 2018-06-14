@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements NetworkUtils.Fetc
     }
 
     @Override
-    public void onFavoriedClicked(Recipe recipe, boolean isFavorite) {
+    public void onFavoriteClicked(Recipe recipe, boolean isFavorite) {
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(getString(R.string.pref_key), MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
