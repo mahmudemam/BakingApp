@@ -66,7 +66,7 @@ public class RecipeWidgetService extends IntentService implements NetworkUtils.F
     private void handleActionIngredientList() {
         final String URL = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
 
-        NetworkUtils.fetchRecipes(this, URL, this);
+        NetworkUtils.fetchRecipes(this, URL, this, null);
     }
 
     private int getRecipeId(List<Recipe> recipes) {

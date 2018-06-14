@@ -6,5 +6,6 @@
     <string name="pref_key">baking_app_preference</string>
     <string name="pref_favorite_key">favorite_preference</string>
     <string name="no_favorite_recipe">No Favorite Recipe</string>
+    <string name="get_recipes">Get Recipes</string>
 
 </resources>

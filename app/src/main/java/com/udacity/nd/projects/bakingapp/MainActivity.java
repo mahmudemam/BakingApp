@@ -4,15 +4,21 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
+import android.support.test.espresso.IdlingResource;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.udacity.nd.projects.bakingapp.data.Recipe;
+import com.udacity.nd.projects.bakingapp.idlingResource.SimpleIdlingResource;
 import com.udacity.nd.projects.bakingapp.utils.JsonUtils;
 import com.udacity.nd.projects.bakingapp.utils.NetworkUtils;
 
@@ -24,6 +30,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity implements NetworkUtils.FetchCallback, RecipeAdapter.RecipeClickListener {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -33,9 +40,14 @@ public class MainActivity extends AppCompatActivity implements NetworkUtils.Fetc
     RecyclerView rv;
     @BindView(R.id.pb_loading_recipe)
     ProgressBar loadingProgressBar;
+    @BindView(R.id.btn_fetch_recipes)
+    Button fetchButton;
+
     private List<Recipe> mRecipes;
     private Parcelable rvPosition;
     private RecipeAdapter mRecipeAdapter;
+
+    @Nullable private SimpleIdlingResource mIdlingResource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,14 +57,16 @@ public class MainActivity extends AppCompatActivity implements NetworkUtils.Fetc
         ButterKnife.bind(this);
 
         if (savedInstanceState != null && savedInstanceState.containsKey(RECIPES_KEY)) {
-            loadingProgressBar.setVisibility(View.INVISIBLE);
+            fetchButton.setVisibility(View.GONE);
+            loadingProgressBar.setVisibility(View.GONE);
+            rv.setVisibility(View.VISIBLE);
 
             mRecipes = savedInstanceState.getParcelableArrayList(RECIPES_KEY);
             loadView();
-        } else {
+        } else {/*
             final String URL = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
 
-            NetworkUtils.fetchRecipes(this, URL, this);
+            NetworkUtils.fetchRecipes(this, URL, this, mIdlingResource);*/
         }
     }
 
@@ -60,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements NetworkUtils.Fetc
     public void onFetchResult(Object result) {
         try {
             loadingProgressBar.setVisibility(View.INVISIBLE);
+            rv.setVisibility(View.VISIBLE);
 
             mRecipes = JsonUtils.parseRecipes((JSONArray) result);
             loadView();
@@ -123,5 +138,25 @@ public class MainActivity extends AppCompatActivity implements NetworkUtils.Fetc
 
         editor.apply();
         mRecipeAdapter.notifyDataSetChanged();
+    }
+
+    @OnClick(R.id.btn_fetch_recipes)
+    void fetchButtonClickListener(View view) {
+        fetchButton.setVisibility(View.GONE);
+        loadingProgressBar.setVisibility(View.VISIBLE);
+
+        final String URL = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
+
+        NetworkUtils.fetchRecipes(this, URL, this, mIdlingResource);
+    }
+
+    @VisibleForTesting
+    @NonNull
+    public IdlingResource getIdlingResource() {
+        if (mIdlingResource == null) {
+            Log.d(TAG, "IdlingResource created");
+            mIdlingResource = new SimpleIdlingResource();
+        }
+        return mIdlingResource;
     }
 }
