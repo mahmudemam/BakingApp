@@ -60,6 +60,13 @@ public class DetailedStepActivity extends AppCompatActivity {
             mRecipeName = intent.getStringExtra(RECIPE_NAME);
             mStepId = intent.getIntExtra(STEP_ID_KEY, 0);
             mSteps = intent.getParcelableArrayListExtra(STEPS_KEY);
+            
+            stepFragment = new DetailedStepFragment();
+            stepFragment.setStep(mSteps.get(mStepId));
+
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.detailed_step_fragment, stepFragment)
+                    .commit();
         }
 
         setTitle(mRecipeName);
@@ -83,14 +90,6 @@ public class DetailedStepActivity extends AppCompatActivity {
                 setupButtons();
             }
         });
-
-
-        stepFragment = new DetailedStepFragment();
-        stepFragment.setStep(mSteps.get(mStepId));
-
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.detailed_step_fragment, stepFragment)
-                .commit();
 
         setupButtons();
     }
