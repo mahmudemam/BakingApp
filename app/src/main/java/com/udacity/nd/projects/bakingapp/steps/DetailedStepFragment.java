@@ -34,6 +34,11 @@ import butterknife.ButterKnife;
 public class DetailedStepFragment extends Fragment {
     private static final String TAG = DetailedStepFragment.class.getSimpleName();
     private static final String STEP_KEY = "step";
+    private static final String PLAYBACK_POSITION_KEY = "playback_key";
+    private static final String CURRENT_POSITION_KEY = "current_position_key";
+    private static final String PLAY_WHEN_READY_KEY = "play_when_ready_key";
+    private static final String CONTAINS_VIDEO_KEY = "contains_video_key";
+
     @BindView(R.id.tv_step_desc)
     TextView stepDesTextView;
     @BindView(R.id.exoPlayerView)
@@ -42,6 +47,10 @@ public class DetailedStepFragment extends Fragment {
     ImageView videoReplacementImageView;
     private Step mStep;
     private SimpleExoPlayer mExoPlayer;
+    private boolean containsVideo = false;
+    private long playbackPosition;
+    private int currentWindow;
+    private boolean playWhenReady;
 
     public DetailedStepFragment() {
     }
@@ -54,6 +63,14 @@ public class DetailedStepFragment extends Fragment {
             Log.d(TAG, "onCreate: savedInstanceState restored");
 
             mStep = savedInstanceState.getParcelable(STEP_KEY);
+
+            containsVideo = savedInstanceState.getBoolean(CONTAINS_VIDEO_KEY);
+
+            if(containsVideo) {
+                playbackPosition = savedInstanceState.getLong(PLAYBACK_POSITION_KEY);
+                currentWindow = savedInstanceState.getInt(CURRENT_POSITION_KEY);
+                playWhenReady = savedInstanceState.getBoolean(PLAY_WHEN_READY_KEY);
+            }
         }
 
         if (mStep == null) {
@@ -76,26 +93,45 @@ public class DetailedStepFragment extends Fragment {
             mPlayerView.setVisibility(View.GONE);
 
             videoReplacementImageView.setVisibility(View.VISIBLE);
+
+            containsVideo = false;
         } else {
-            setupVideo();
+            containsVideo = true;
         }
 
         stepDesTextView.setText(mStep.getDescription());
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (mExoPlayer != null) {
-            mExoPlayer.stop();
-            mExoPlayer.release();
-            mExoPlayer = null;
+    public void onStart() {
+        super.onStart();
+        if (containsVideo && Util.SDK_INT > 23) {
+            initializePlayer();
         }
     }
 
-    public void setStep(Step step) {
-        Log.d(TAG, "Step is set");
-        mStep = step;
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (containsVideo && (Util.SDK_INT <= 23 || mExoPlayer == null)) {
+            initializePlayer();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (containsVideo && Util.SDK_INT <= 23) {
+            releasePlayer();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (containsVideo && Util.SDK_INT > 23) {
+            releasePlayer();
+        }
     }
 
     @Override
@@ -103,9 +139,31 @@ public class DetailedStepFragment extends Fragment {
         super.onSaveInstanceState(outState);
 
         outState.putParcelable(STEP_KEY, mStep);
+        outState.putBoolean(CONTAINS_VIDEO_KEY, containsVideo);
+
+        if (containsVideo) {
+            playbackPosition = mExoPlayer.getCurrentPosition();
+            outState.putLong(PLAYBACK_POSITION_KEY, playbackPosition);
+
+            currentWindow = mExoPlayer.getCurrentWindowIndex();
+            outState.putInt(CURRENT_POSITION_KEY, currentWindow);
+
+            playWhenReady = mExoPlayer.getPlayWhenReady();
+            outState.putBoolean(PLAY_WHEN_READY_KEY, playWhenReady);
+        }
+
+        Log.d(TAG, CONTAINS_VIDEO_KEY + "=" + containsVideo);
+        Log.d(TAG, PLAYBACK_POSITION_KEY + "=" + playbackPosition);
+        Log.d(TAG, CURRENT_POSITION_KEY + "=" + currentWindow);
+        Log.d(TAG, PLAY_WHEN_READY_KEY + "=" + playWhenReady);
     }
 
-    private void setupVideo() {
+    public void setStep(Step step) {
+        Log.d(TAG, "Step is set");
+        mStep = step;
+    }
+
+    private void initializePlayer() {
         mExoPlayer = ExoPlayerFactory.newSimpleInstance(getActivity(),
                 new DefaultTrackSelector(),
                 new DefaultLoadControl());
@@ -115,6 +173,15 @@ public class DetailedStepFragment extends Fragment {
                 new DefaultDataSourceFactory(getActivity(), Util.getUserAgent(getActivity(), getResources().getString(R.string.app_name))),
                 new DefaultExtractorsFactory(), null, null);
         mExoPlayer.prepare(mediaSource);
-        mExoPlayer.setPlayWhenReady(true);
+        mExoPlayer.setPlayWhenReady(playWhenReady);
+        mExoPlayer.seekTo(currentWindow, playbackPosition);
+    }
+
+    private void releasePlayer() {
+        if (mExoPlayer != null) {
+            mExoPlayer.stop();
+            mExoPlayer.release();
+            mExoPlayer = null;
+        }
     }
 }
