@@ -60,7 +60,7 @@ public class DetailedStepActivity extends AppCompatActivity {
             mRecipeName = intent.getStringExtra(RECIPE_NAME);
             mStepId = intent.getIntExtra(STEP_ID_KEY, 0);
             mSteps = intent.getParcelableArrayListExtra(STEPS_KEY);
-            
+
             stepFragment = new DetailedStepFragment();
             stepFragment.setStep(mSteps.get(mStepId));
 
