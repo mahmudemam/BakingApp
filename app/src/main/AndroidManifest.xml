@@ -46,6 +46,8 @@
         </receiver>
 
         <service android:name=".widgets.RecipeWidgetService" />
+        <service android:name=".widgets.IngredientsListViewService" />
+
     </application>
 
 </manifest>

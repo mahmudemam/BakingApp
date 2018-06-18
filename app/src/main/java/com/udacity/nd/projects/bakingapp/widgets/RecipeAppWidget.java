@@ -5,15 +5,13 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.widget.RemoteViews;
 
 import com.udacity.nd.projects.bakingapp.MainActivity;
 import com.udacity.nd.projects.bakingapp.R;
 import com.udacity.nd.projects.bakingapp.RecipeDetailsActivity;
-import com.udacity.nd.projects.bakingapp.data.Ingredient;
 import com.udacity.nd.projects.bakingapp.data.Recipe;
-
-import java.util.List;
 
 /**
  * Implementation of App Widget functionality.
@@ -29,12 +27,17 @@ public class RecipeAppWidget extends AppWidgetProvider {
             views = new RemoteViews(context.getPackageName(), R.layout.recipe_app_widget);
 
             views.setTextViewText(R.id.appwidget_tv_recipe_name, recipe.getName());
-            views.setTextViewText(R.id.appwidget_tv_ingredients, formatIngredients(recipe.getIngredients()));
+
+            Intent listViewIntent = new Intent(context, IngredientsListViewService.class);
+            listViewIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+            listViewIntent.putExtra(IngredientsListViewService.RECIPE_KEY, recipe);
+            views.setRemoteAdapter(R.id.appwidget_list_ingredients, listViewIntent);
+            views.setEmptyView(R.id.appwidget_list_ingredients, R.id.empty_view);
 
             Intent intent = RecipeDetailsActivity.getRecipeDetailsIntent(context, recipe);
             PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
-            views.setOnClickPendingIntent(R.id.appwidget_tv_ingredients, pendingIntent);
+            views.setOnClickPendingIntent(R.id.appwidget_list_ingredients, pendingIntent);
         } else {
             views = new RemoteViews(context.getPackageName(), R.layout.recipe_default_widget);
 
@@ -52,21 +55,6 @@ public class RecipeAppWidget extends AppWidgetProvider {
         for (int appWidgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId, recipe);
         }
-    }
-
-    private static String formatIngredients(List<Ingredient> ingredients) {
-        StringBuilder sb = new StringBuilder();
-
-        for (Ingredient ingredient : ingredients) {
-            sb.append(ingredient.getQuantity())
-                    .append(" ")
-                    .append(ingredient.getMeasure())
-                    .append(" of ")
-                    .append(ingredient.getIngredient())
-                    .append("\n");
-        }
-
-        return sb.toString();
     }
 
     @Override

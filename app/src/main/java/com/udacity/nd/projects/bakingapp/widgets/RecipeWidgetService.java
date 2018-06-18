@@ -57,6 +57,8 @@ public class RecipeWidgetService extends IntentService implements NetworkUtils.F
             if (recipeId != -1)
                 recipe = recipes.get(recipeId);
 
+            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.appwidget_list_ingredients);
+
             RecipeAppWidget.updateAppWidgets(this, appWidgetManager, appWidgetIds, recipe);
         } catch (IOException ex) {
             Log.e(TAG, ex.getMessage());
