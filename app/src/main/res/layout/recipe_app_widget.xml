@@ -35,7 +35,6 @@
         android:id="@+id/appwidget_list_ingredients"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:minHeight="?attr/dropdownListPreferredItemHeight"
         android:layout_margin="8dp"
         android:numColumns="1" />
 </LinearLayout>
