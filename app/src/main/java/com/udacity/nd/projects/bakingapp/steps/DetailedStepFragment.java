@@ -22,6 +22,7 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+import com.squareup.picasso.Picasso;
 import com.udacity.nd.projects.bakingapp.R;
 import com.udacity.nd.projects.bakingapp.data.Step;
 
@@ -90,11 +91,19 @@ public class DetailedStepFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         if (mStep.getVideoURL() == null || mStep.getVideoURL().isEmpty()) {
+            containsVideo = false;
+
             mPlayerView.setVisibility(View.GONE);
 
             videoReplacementImageView.setVisibility(View.VISIBLE);
 
-            containsVideo = false;
+            if (mStep.getThumbnailURL() != null && ! mStep.getThumbnailURL().isEmpty()) {
+                Picasso.with(getActivity())
+                        .load(mStep.getThumbnailURL())
+                        .placeholder(R.drawable.ic_video_replacement)
+                        .error(R.drawable.ic_video_replacement)
+                        .into(videoReplacementImageView);
+            }
         } else {
             containsVideo = true;
         }
