@@ -12,7 +12,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.udacity.nd.projects.bakingapp.data.Recipe;
+import com.udacity.nd.projects.bakingapp.utils.JsonUtils;
 
+import java.io.IOException;
 import java.util.List;
 
 import butterknife.BindView;
@@ -134,12 +136,23 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             }
         }
 
-        private boolean isFavorite(Recipe recipe) {
+        private boolean isFavorite(@NonNull Recipe recipe) {
             SharedPreferences sharedPreferences = mContext.getSharedPreferences(mContext.getString(R.string.pref_key), mContext.MODE_PRIVATE);
-            String name = sharedPreferences.getString(mContext.getResources().getString(R.string.pref_favorite_key), null);
-            Log.d(TAG, "recipeName=" + name);
+            String recipeStr = sharedPreferences.getString(mContext.getResources().getString(R.string.pref_favorite_key), null);
+            Log.v(TAG, "recipe=" + recipeStr);
 
-            return recipe.getName().equals(name);
+            if (recipeStr == null)
+                return false;
+
+            try {
+                Recipe favoriteRecipe = JsonUtils.toRecipe(recipeStr);
+
+                return ((favoriteRecipe != null) && (recipe.getName().equals(favoriteRecipe.getName())));
+            } catch (IOException e) {
+                Log.e(TAG, e.getMessage());
+
+                return false;
+            }
         }
     }
 }

@@ -46,7 +46,9 @@
         </receiver>
 
         <service android:name=".widgets.RecipeWidgetService" />
-        <service android:name=".widgets.IngredientsListViewService" />
+        <service
+            android:name=".widgets.IngredientsListViewService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
 
     </application>
 

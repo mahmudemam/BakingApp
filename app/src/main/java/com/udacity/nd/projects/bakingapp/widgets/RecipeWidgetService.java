@@ -22,7 +22,7 @@ import java.util.List;
  * Created by noname on 6/9/18.
  */
 
-public class RecipeWidgetService extends IntentService implements NetworkUtils.FetchCallback {
+public class RecipeWidgetService extends IntentService {
     public static final String ACTION_INGREDIENT_LIST = "ingredients";
     private static final String TAG = RecipeWidgetService.class.getSimpleName();
 
@@ -44,53 +44,30 @@ public class RecipeWidgetService extends IntentService implements NetworkUtils.F
         }
     }
 
-    @Override
-    public void onFetchResult(Object result) {
-        try {
-            List<Recipe> recipes = JsonUtils.parseRecipes((JSONArray) result);
-
-            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
-            int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, RecipeAppWidget.class));
-
-            int recipeId = getRecipeId(recipes);
-            Recipe recipe = null;
-            if (recipeId != -1)
-                recipe = recipes.get(recipeId);
-
-            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.appwidget_list_ingredients);
-
-            RecipeAppWidget.updateAppWidgets(this, appWidgetManager, appWidgetIds, recipe);
-        } catch (IOException ex) {
-            Log.e(TAG, ex.getMessage());
-        }
-    }
-
     private void handleActionIngredientList() {
-        final String URL = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
+        Recipe favoriteRecipe = null;
 
-        NetworkUtils.fetchRecipes(this, URL, this, null);
-    }
-
-    private int getRecipeId(List<Recipe> recipes) {
-        Log.d(TAG, "getRecipeId: Started");
-
-        String recipeName = null;
         SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.pref_key), MODE_PRIVATE);
         if (sharedPreferences != null && sharedPreferences.contains(getString(R.string.pref_favorite_key))) {
-            recipeName = sharedPreferences.getString(getString(R.string.pref_favorite_key), null);
-        }
+            String recipeStr = sharedPreferences.getString(getString(R.string.pref_favorite_key), null);
 
-        if (recipeName != null) {
-            Log.d(TAG, "getRecipeId: recipeName=" + recipeName);
-            for (int i = 0; i < recipes.size(); i++) {
-                Recipe recipe = recipes.get(i);
+            if (recipeStr != null) {
+                Log.v(TAG, "recipeStr=" + recipeStr);
 
-                if (recipeName.equals(recipe.getName()))
-                    return i;
+                try {
+                    favoriteRecipe = JsonUtils.toRecipe(recipeStr);
+                } catch (IOException e) {
+                    Log.e(TAG, e.getMessage());
+                }
             }
         }
 
-        Log.d(TAG, "getRecipeId: Started");
-        return -1;
+        Log.d(TAG, "favoriteRecipe=" + (favoriteRecipe == null ? "null" : "exists"));
+
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(this);
+        int[] appWidgetIds = appWidgetManager.getAppWidgetIds(new ComponentName(this, RecipeAppWidget.class));
+
+        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.appwidget_list_ingredients);
+        RecipeAppWidget.updateAppWidgets(this, appWidgetManager, appWidgetIds, favoriteRecipe);
     }
 }

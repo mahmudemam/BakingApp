@@ -9,14 +9,14 @@
         android:id="@+id/rv_recipes"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible"/>
+        android:visibility="invisible" />
 
     <ProgressBar
         android:id="@+id/pb_loading_recipe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:visibility="invisible"/>
+        android:visibility="invisible" />
 
     <Button
         android:id="@+id/btn_fetch_recipes"
@@ -26,6 +26,6 @@
         android:padding="16dp"
         android:text="@string/get_recipes"
         android:textColor="@color/colorAccent"
-        android:visibility="visible"/>
+        android:visibility="visible" />
 
 </FrameLayout>

@@ -1,6 +1,5 @@
 package com.udacity.nd.projects.bakingapp;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -47,7 +46,8 @@ public class MainActivity extends AppCompatActivity implements NetworkUtils.Fetc
     private Parcelable rvPosition;
     private RecipeAdapter mRecipeAdapter;
 
-    @Nullable private SimpleIdlingResource mIdlingResource;
+    @Nullable
+    private SimpleIdlingResource mIdlingResource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,10 +63,6 @@ public class MainActivity extends AppCompatActivity implements NetworkUtils.Fetc
 
             mRecipes = savedInstanceState.getParcelableArrayList(RECIPES_KEY);
             loadView();
-        } else {/*
-            final String URL = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json";
-
-            NetworkUtils.fetchRecipes(this, URL, this, mIdlingResource);*/
         }
     }
 
@@ -131,7 +127,11 @@ public class MainActivity extends AppCompatActivity implements NetworkUtils.Fetc
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         if (isFavorite) {
-            editor.putString(getString(R.string.pref_favorite_key), recipe.getName());
+            try {
+                editor.putString(getString(R.string.pref_favorite_key), JsonUtils.toJsonString(recipe));
+            } catch (IOException e) {
+                Log.e(TAG, e.getMessage());
+            }
         } else {
             editor.remove(getString(R.string.pref_favorite_key));
         }

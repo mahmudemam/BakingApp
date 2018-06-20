@@ -11,6 +11,8 @@ import java.util.List;
 
 public class JsonUtils {
 
+    private static final String TAG = JsonUtils.class.getSimpleName();
+
     public static List<Recipe> parseRecipes(JSONArray jsonStr) throws IOException {
         if (jsonStr.length() == 0)
             return null;
@@ -26,4 +28,21 @@ public class JsonUtils {
         return recipes;
     }
 
+    public static Recipe toRecipe(String jsonStr) throws IOException {
+        if (jsonStr.length() == 0)
+            return null;
+
+        ObjectMapper om = new ObjectMapper();
+        return om.readValue(jsonStr, Recipe.class);
+
+    }
+
+    public static String toJsonString(Recipe recipe) throws IOException {
+        if (recipe == null)
+            return null;
+
+        ObjectMapper om = new ObjectMapper();
+        return om.writeValueAsString(recipe);
+
+    }
 }
